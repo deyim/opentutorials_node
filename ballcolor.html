@@ -36,25 +36,25 @@
 			// }
 
 			//data
+
+		/* Ball class */
 		var Ball = function(x,y,radius){
+			//Data
 			this.x = x||0;
 			this.y = y||0;
 			this.radius = radius||10;
 			this.vx = Math.floor(Math.random()*10)-5;
 			this.vy = Math.floor(Math.random()*10)-5;
 
-					//view
+			//view
 			this.view = document.createElement("div");
 			this.view.style.backgroundColor = randomRGB();
 			this.view.style.width = this.view.style.height = this.radius*2 + "px";
 			this.view.style.borderRadius = "50%";
-			this.view.style.position = "aboslute";
-			this.view.style.left = this.x + "px";
-			this.view.style.top = this.y + "px";
+			this.view.style.position = "absolute";
+    		this.view.style.left = this.x + "px";
+  			this.view.style.top = this.y + "px";
 		};
-
-
-		
 
 		Ball.prototype.move = function(){
 			//Data
