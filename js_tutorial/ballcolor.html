@@ -1,0 +1,169 @@
+<html>
+	<body>
+		<script>
+			// var container = document.createElement("div");
+			// document.body.appendChild(container);
+
+			// for(var i = 0 ; i < 20 ; i++){
+			// 	var ball = document.createElement("div");
+
+			// 	ball.style.height = ball.style.width = "20px";
+			// 	ball.style.borderRadius = "50%";
+			// 	ball.style.backgroundColor = "rgb("+ random(255) + "," + random(255) + "," + random(255) + ")";
+			// 	//"rgb(" + random(255) + ", " + random(255) + ", " + random(255) + ")";
+			// 	//"rgb(155, 102, 102)"
+			// 	//"rgb("+ random(255) + "," + random(255) + "," + random(255) + ")";
+
+			// 	ball.style.position = "aboslute";
+			// 	ball.style.left = random(400)+"px";
+			// 	ball.style.top = random(400)+"px";
+
+			// 	container.appendChild(ball);
+			// }
+
+			// setInterval(function(){
+			// 	var balls = container.children;
+			// 	for(var i = 0 ; i < balls.length ; i++){
+			// 		balls[i].style.backgroundColor = "rgb("+ random(255) + "," + random(255) + "," + random(255) + ")";
+			// 	}
+			// }, 600);
+
+			// function random(num){
+			// 	a= Math.random()
+			// 	a = Math.random() * num;
+			// 	a = Math.floor(a);
+			// 	return a;
+			// }
+
+			//data
+
+		/* Ball class */
+		var Ball = function(x,y,radius){
+			//Data
+			this.x = x||0;
+			this.y = y||0;
+			this.radius = radius||10;
+			this.vx = Math.floor(Math.random()*10)-5;
+			this.vy = Math.floor(Math.random()*10)-5;
+
+			//view
+			this.view = document.createElement("div");
+			this.view.style.backgroundColor = randomRGB();
+			this.view.style.width = this.view.style.height = this.radius*2 + "px";
+			this.view.style.borderRadius = "50%";
+			this.view.style.position = "absolute";
+    		this.view.style.left = this.x + "px";
+  			this.view.style.top = this.y + "px";
+		};
+
+		Ball.prototype.move = function(){
+			//Data
+			this.x += this.vx;
+			this.y += this.vy;
+
+			//View
+			this.view.style.left = this.x - this.radius + "px";
+			this.view.style.top = this.y - this.radius + "px";
+			return this;
+		};
+
+		Ball.prototype.collideX = function(){
+			//Data
+			this.vx *= -1;
+			return this;
+		};
+
+		Ball.prototype.collideY = function(){
+			this.vy *= -1;
+			return this;
+		};
+
+		Ball.prototype.getView = function(){
+			return this.view;
+		}
+
+		Ball.prototype.getX = function(){
+			return this.x;
+		};
+
+		Ball.prototype.getY = function(){
+			return this.y;
+		};
+
+		var Container = function(width, height){
+			//Data
+			this.objects = [];
+			this.width = width || 500;
+			this.height = height || 500;
+
+			//view
+			this.view = document.createElement("div");
+			this.view.style.border = "1px dashed red";
+			this.view.style.position = "relative";
+			this.view.style.width = this.width + "px";
+			this.view.style.height = this.height + "px";
+		}
+
+		Container.prototype.addObject = function(obj){
+			this.objects.push(obj);
+
+			this.view.appendChild(obj.getView());
+			return this;
+		}
+
+		Container.prototype.moveObjects = function(){
+			for(var i = 0 ; i < this.objects.length; i++){
+				var obj = this.objects[i];
+				obj.move();
+
+				var x = obj.getX(), y = obj.getY(), collision = false;
+
+				if(x < 0 || x > this.width){
+					obj.collideX();
+					collision = true;
+				}
+				if( y < 0 || y > this.height){
+					obj.collideY();
+					collision = true;
+				}
+
+				if(collision){
+					obj.move();
+				}
+			}
+
+			return this;
+		}
+
+		Container.prototype.getView = function(){
+			return this.view;
+		}
+
+		function randomRGB(){
+			var r = parseInt(Math.random()*255),
+			g = parseInt(Math.random()*255),
+			b = parseInt(Math.random()*255),
+			rgb = "rgb(" + r + ", " + g + ", " +b+ ")";
+			return rgb;
+		}
+
+		var container = new Container(400,400);
+
+		for (var i = 0; i< 20 ; i++){
+			var ball = new Ball(100,100);
+			container.addObject(ball);
+		}
+
+		document.body.appendChild(container.getView());
+
+		setInterval(function(){
+			container.moveObjects();
+			//container.getView();
+		}, 20);
+
+
+	
+
+		</script>
+	</body>
+</html>
