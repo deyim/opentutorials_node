@@ -1,8 +1,20 @@
 var express =require('express');
 var fs = require('fs');
 var app = express();
-var bodyParser = require('body-parser')
 
+var multer = require('multer');
+var _storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/')
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname)
+  }
+})
+var upload = multer({ storage: _storage});
+
+var bodyParser = require('body-parser');
+app.use('/user', express.static('uploads'));
 
 //jade, bodyparser
 app.set('view engine', 'jade');
@@ -15,6 +27,14 @@ app.listen(3000, ()=>{
 	console.log('connected! 3000 port');
 });
 
+app.get('/upload', (req,res)=>{
+	res.render('upload');
+})
+
+app.post('/upload', upload.single('userfile'), (req,res,next)=>{
+	res.send('uploaded: '+ req.file.filename);
+	console.log(req.file);
+});
 
 //index page
 app.get('/', (req,res)=>{
