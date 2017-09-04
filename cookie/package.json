@@ -1,0 +1,21 @@
+{
+  "name": "cookie",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app_cookie.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.15.4",
+    "express-mysql-session": "^1.2.2",
+    "express-session": "^1.15.5",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "pbkdf2-password": "^1.2.1"
+  }
+}
