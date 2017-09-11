@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+	</head>
+	<body>
+
+    <button onclick="price1()" name="button" value = "1">1~3</button>
+    <button onclick="price2()" name="button" value = "2">3~6</button>
+		<ul class = "content">
+		</ul>
+
+		<script >
+
+		function price1(){
+			$.ajax({
+					method: "get",
+					url: "http://davids-restaurant.herokuapp.com/menu_items.json",
+					data: {}
+				})
+				.done(function( msg ){
+          var items = msg.menu_items;
+          //var price = $('button[name = button]').val();
+          // document.getElementsByName('button1').val();
+        $(".content").empty();
+					for(var i = 0 ; i < msg.menu_items.length ; i++){
+            //  consle.log("small price "+items[i].price_small);
+              if(items[i].price_small > 1 && items[i].price_small < 3){
+                $(".content").append("<li><img src=\"https://rockethyun.github.io/module5-solution/images/menu/" + items[i].short_name[0] +"/"+ items[i].short_name + ".jpg\"><br><b>" + items[i].name+"</b><br>"+ items[i].description+"</li><br>");
+              }
+					}
+					console.log(msg);
+				});
+		}
+
+    function price2(){
+			$.ajax({
+					method: "get",
+					url: "http://davids-restaurant.herokuapp.com/menu_items.json",
+					data: {}
+				})
+				.done(function( msg ){
+          var items = msg.menu_items;
+          $(".content").empty();
+          //var price = $('button[name = button]').val();
+          // document.getElementsByName('button1').val();
+        //  $(".content").empty();
+					for(var i = 0 ; i < msg.menu_items.length ; i++){
+            //  consle.log("small price "+items[i].price_small);
+              if(items[i].price_small > 3 && items[i].price_small < 6){
+                $(".content").append("<li><img src=\"https://rockethyun.github.io/module5-solution/images/menu/" + items[i].short_name[0] +"/"+ items[i].short_name + ".jpg\"><br><b>" + items[i].name+"</b><br>"+ items[i].description+"</li><br>");
+              }
+					}
+					console.log(msg);
+				});
+		}
+
+		</script>
+
+
+	</body>
+</html>
